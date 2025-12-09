@@ -3,3 +3,4 @@ __pycache__/
 data/ptbxl/records100/
 data/ptbxl/records500/
 data/ptbxl/*
+.Rproj.user
