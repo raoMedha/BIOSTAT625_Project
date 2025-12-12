@@ -1,0 +1,20 @@
+---
+title: "Automated Classification via CNN of Cardiac Arrhythmias from ECG Signals"
+author:
+  - "Medha Rao"
+  - "Prema Immadisetty"
+output:
+  pdf_document:
+    number_sections: true
+    toc: false
+fontsize: 11pt
+geometry: margin=1in
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE
+)
+```

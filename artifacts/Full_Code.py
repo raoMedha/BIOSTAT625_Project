@@ -45,10 +45,10 @@ LABEL_MAP = {
 }
 
 # How many samples per class to use; want a balanced subset so model doesn't predict everything as normal (normal dominates in the sample)
-N_PER_CLASS = 600  # total ~ 5 * 600 = 3000
+N_PER_CLASS = 1500 
 
 # Re Hz factor (500 Hz is a lot to process... can do 250 Hz with length 2500)
-DOWNSAMPLE_FACTOR = 2
+DOWNSAMPLE_FACTOR = 1
 
 # Training hyperparameters
 EPOCHS = 40
@@ -83,7 +83,7 @@ def bandpass_filter(sig: np.ndarray,
 def preprocess(sig: np.ndarray) -> np.ndarray:
 
     sig = bandpass_filter(sig)
-    sig = normalize_signal(sig)
+    # sig = normalize_signal(sig)
     if DOWNSAMPLE_FACTOR > 1:
         sig = sig[::DOWNSAMPLE_FACTOR, :]
     return sig.astype(np.float32)
@@ -226,7 +226,7 @@ def main():
     X = np.asarray(X_list, dtype=np.float32)
     y = np.asarray(y_list, dtype=np.int64)
 
-    print("\nX shape:", X.shape)  # (n_samples, time, leads)
+    print("\nX shape:", X.shape) 
     print("y shape:", y.shape)
 
     # TRAIN/ VALIDATION/ TEST split!! 
@@ -259,7 +259,7 @@ def main():
     print("\nClass weights:", class_weight)
 
     # build and train model 
-    input_shape = X_train.shape[1:]  # (time, leads)
+    input_shape = X_train.shape[1:] 
     model = build_model(input_shape=input_shape, n_classes=len(LABEL_MAP))
 
     model.summary()
@@ -290,7 +290,7 @@ def main():
         verbose=1,
     )
 
-        # Evaluate model
+    # Evaluate model
 
     def evaluate_split(name, X_split, y_split):
         print(f"\n=== {name} performance ===")
@@ -315,19 +315,19 @@ def main():
     evaluate_split("Validation", X_val, y_val)
     evaluate_split("Test", X_test, y_test)
 
-    # Save validation figures created in artifacts folder
+    # Save validation figures to artifacts folder
     import json
     import matplotlib.pyplot as plt  # no confusion_matrix import here
 
     ARTIFACTS_DIR = os.path.join("artifacts")
     os.makedirs(ARTIFACTS_DIR, exist_ok=True)
 
-    # validation confusion matrix
+    # validation confusion matrix (plot)
     y_val_pred_probs = model.predict(X_val, verbose=0)  # <-- FIXED: model.predict
     y_val_pred = np.argmax(y_val_pred_probs, axis=1)
     cm_val = confusion_matrix(y_val, y_val_pred)        # uses global import
 
-    # numeric confusion matrix
+    # confusion matrix
     np.save(os.path.join(ARTIFACTS_DIR, "confusion_matrix_val.npy"), cm_val)
     np.savetxt(
         os.path.join(ARTIFACTS_DIR, "confusion_matrix_val.csv"),
@@ -336,8 +336,8 @@ def main():
         fmt="%d",
     )
 
-        # test confusion matrix (plot)
-    # first create predictions on the test from model
+    # test confusion matrix (plot)
+    # predictions from model 
     y_test_pred_probs = model.predict(X_test, verbose=0)
     y_test_pred = np.argmax(y_test_pred_probs, axis=1)
 
@@ -389,9 +389,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-   
