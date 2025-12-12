@@ -56,6 +56,8 @@ The CNN was trained for a maximum of 40 epochs with a batch size of 32. To furth
 
 ## Results 
 
+There is a total of 21,799 ECG signals, of which we utilized 21,388 with a diagnostic superclass mapping. 44% of ECGs were of normal superclass, 25% were MI, 13% were STTC, 11% were CD, and 7% were CD. The balanced split randomly chose 1500 for each class, with 1308 being used in total for CD. 
+
 Training and validation loss over the epochs is visualized in Figure 1. Both curves dropped quickly over the first few epochs and then decreased more slowly, with the validation loss following the training loss closely. The initial training and validation losses were about 1.48 and 1.29, respectively, and by the final epoch they were reduced to roughly 0.94 (train) and 0.96 (validation). The corresponding final accuracies were about 0.66 on both the training and validation sets, suggesting moderate fit without extreme overfitting.
 ```{r fig-loss-curve, echo=FALSE, fig.cap="Training and validation loss across epochs for the 1D CNN classifier."}
 knitr::include_graphics("artifacts/loss_curve.png")
